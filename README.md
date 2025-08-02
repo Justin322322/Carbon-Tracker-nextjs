@@ -54,6 +54,15 @@ CarbonTracker is a comprehensive carbon footprint tracking dashboard built with 
 - **Autoprefixer** - CSS vendor prefixing
 - **Playwright** - End-to-end testing
 
+## Documentation
+
+For detailed information about the application, please refer to the following documentation:
+
+- **[API Documentation](docs/API.md)** - Data types, interfaces, and utility functions
+- **[Component Documentation](docs/COMPONENTS.md)** - Detailed component descriptions and usage
+- **[Deployment Guide](docs/DEPLOYMENT.md)** - Deployment options and best practices
+- **[Development Guide](docs/DEVELOPMENT.md)** - Development workflow and coding standards
+
 ## Project Structure
 
 ```
