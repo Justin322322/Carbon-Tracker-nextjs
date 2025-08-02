@@ -1,0 +1,26 @@
+{
+  "$schema": "https://unpkg.com/knip@latest/schema.json",
+  "ignore": [
+    ".next/**",
+    "node_modules/**",
+    "dist/**",
+    "build/**",
+    "out/**",
+    "coverage/**",
+    "*.config.js",
+    "*.config.ts",
+    "tailwind.config.js",
+    "postcss.config.js",
+    "next.config.js",
+    "next-env.d.ts",
+    "tsconfig.json",
+    "tsconfig.tsbuildinfo",
+    "package.json",
+    "package-lock.json",
+    "README.md",
+    ".eslintrc.json",
+    ".gitignore",
+    "public/**",
+    "src/app/globals.css"
+  ]
+} 
