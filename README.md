@@ -6,6 +6,13 @@ A modern, responsive web application for tracking and analyzing personal carbon 
 
 CarbonTracker is a comprehensive carbon footprint tracking dashboard built with Next.js 15, React 19, and TypeScript. The application provides users with tools to monitor their environmental impact, set sustainability goals, and track progress towards reducing their carbon footprint.
 
+## Screenshot
+ Desktop
+<img width="1919" height="913" alt="image" src="https://github.com/user-attachments/assets/d80d88f6-123b-42bb-8596-c631cd22b63f" />
+ Mobile
+<img width="386" height="830" alt="image" src="https://github.com/user-attachments/assets/8af29e6e-468b-4c6a-ac8a-9c1c0994c708" />
+
+
 ## Features
 
 ### Dashboard
