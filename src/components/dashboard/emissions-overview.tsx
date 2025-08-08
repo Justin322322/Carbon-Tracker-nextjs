@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { motion } from "framer-motion"
+
 import { TrendingDown, Zap, ArrowUp, ArrowDown, Star } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { formatCO2 } from "@/lib/utils"
@@ -70,17 +70,8 @@ export function EmissionsOverview({
 
   return (
     <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-      {cards.map((card, index) => (
-        <motion.div
-          key={card.title}
-          initial={{ opacity: 0, y: 30, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ 
-            duration: 0.6, 
-            delay: index * 0.1,
-            ease: "easeOut"
-          }}
-        >
+      {cards.map((card) => (
+        <div key={card.title}>
           <Card className="relative overflow-hidden h-48 sm:h-56 shadow-xl transition-all duration-500 border-0 bg-gradient-to-br from-card to-card/90 backdrop-blur-sm">
             {/* Enhanced background gradient overlay - increased opacity */}
             <div className={`absolute inset-0 bg-gradient-to-br ${card.bgColor} opacity-40 transition-opacity duration-500`} />
@@ -104,24 +95,16 @@ export function EmissionsOverview({
             
             <CardContent className="pt-3 sm:pt-4 flex flex-col justify-between h-28 sm:h-36 relative">
               <div className="flex items-center justify-between">
-                <motion.div 
-                  className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/90 bg-clip-text"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
-                >
+                <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/90 bg-clip-text">
                   {card.value}
-                </motion.div>
+                </div>
                 {card.trend !== "neutral" && (
-                  <motion.div 
+                  <div
                     className={`flex items-center gap-1 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs font-medium ${card.accentColor} ${
-                      card.trend === "up" 
-                        ? "text-green-700 dark:text-green-400" 
+                      card.trend === "up"
+                        ? "text-green-700 dark:text-green-400"
                         : "text-red-700 dark:text-red-400"
                     }`}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 + 0.4 }}
                   >
                     {card.trend === "up" ? (
                       <ArrowUp className="h-3 w-3" />
@@ -129,7 +112,7 @@ export function EmissionsOverview({
                       <ArrowDown className="h-3 w-3" />
                     )}
                     {Math.abs(monthlyChange)}%
-                  </motion.div>
+                  </div>
                 )}
               </div>
               
@@ -146,12 +129,7 @@ export function EmissionsOverview({
                       <span className="font-medium">{currentProgress}%</span>
                     </div>
                     <div className="h-2 w-full rounded-full bg-secondary/50 overflow-hidden">
-                      <motion.div
-                        className={`h-full rounded-full bg-gradient-to-r ${card.gradient}`}
-                        initial={{ width: 0 }}
-                        animate={{ width: `${currentProgress}%` }}
-                        transition={{ duration: 1.5, delay: 0.8, ease: "easeOut" }}
-                      />
+                      <div className={`h-full rounded-full bg-gradient-to-r ${card.gradient}`} style={{ width: `${currentProgress}%` }} />
                     </div>
                   </div>
                 )}
@@ -178,7 +156,7 @@ export function EmissionsOverview({
             {/* Enhanced glow effect - increased opacity */}
             <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/10 to-primary/10 opacity-60 transition-opacity duration-300 pointer-events-none" />
           </Card>
-        </motion.div>
+        </div>
       ))}
     </div>
   )

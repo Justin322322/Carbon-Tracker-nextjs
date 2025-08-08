@@ -1,11 +1,15 @@
 "use client"
 
 import * as React from "react"
-import { motion } from "framer-motion"
 import { Download, FileText, Calendar, TrendingUp } from "lucide-react"
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { PageHeader } from "@/components/ui/page-header"
+import { SegmentedControl, type Segment } from "@/components/ui/segmented-control"
+
+import { ReportsQuickStatsSkeleton, RecentReportsSkeleton } from "@/components/skeletons/reports"
+
 
 export default function ReportsPage() {
   const reports = [
@@ -18,7 +22,7 @@ export default function ReportsPage() {
       size: "2.3 MB"
     },
     {
-      id: "2", 
+      id: "2",
       title: "Q4 2024 Sustainability Summary",
       description: "Quarterly review of emissions and sustainability goals",
       date: "2024-12-31",
@@ -35,92 +39,98 @@ export default function ReportsPage() {
     }
   ]
 
+  const [filter, setFilter] = React.useState<string>("all")
+  const segments: Segment[] = [
+    { value: "all", label: "All" },
+    { value: "monthly", label: "Monthly" },
+    { value: "quarterly", label: "Quarterly" },
+    { value: "category", label: "Category" },
+  ]
+
+  const [loading, setLoading] = React.useState(true)
+  React.useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 800)
+    return () => clearTimeout(t)
+  }, [])
+
+  const filteredReports = reports.filter(r => filter === "all" ? true : r.type === filter)
+
   return (
     <DashboardLayout>
-      {/* Page Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="mb-8"
-      >
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Reports</h1>
-            <p className="text-muted-foreground">
-              Download detailed analysis and insights
-            </p>
-          </div>
-          <Button className="gap-2">
-            <FileText className="h-4 w-4" />
-            Generate Report
-          </Button>
-        </div>
-      </motion.div>
+      <PageHeader
+        title="Reports"
+        description="Download detailed analysis and insights"
+        actions={<Button className="gap-2"><FileText className="h-4 w-4" />Generate Report</Button>}
+      />
+
+      {/* Filters */}
+      <div className="mb-6">
+        <SegmentedControl ariaLabel="Filter reports" value={filter} onChange={setFilter} segments={segments} />
+      </div>
 
       {/* Quick Stats */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        className="grid gap-4 md:grid-cols-3 mb-8"
-      >
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Reports</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">12</div>
-            <p className="text-xs text-muted-foreground">+2 this month</p>
-          </CardContent>
-        </Card>
+      <div className="grid gap-4 md:grid-cols-3 mb-8">
+        {loading ? (
+          <ReportsQuickStatsSkeleton />
+        ) : (
+          <>
+            <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-card to-card/95 backdrop-blur-sm shadow-xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-transparent to-transparent opacity-50" />
+              <CardHeader className="relative flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Total Reports</CardTitle>
+                <FileText className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent className="relative">
+                <div className="text-2xl font-bold">12</div>
+                <p className="text-xs text-muted-foreground">+2 this month</p>
+              </CardContent>
+            </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Downloads</CardTitle>
-            <Download className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">847</div>
-            <p className="text-xs text-muted-foreground">+23% from last month</p>
-          </CardContent>
-        </Card>
+            <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-card to-card/95 backdrop-blur-sm shadow-xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-transparent to-transparent opacity-50" />
+              <CardHeader className="relative flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Downloads</CardTitle>
+                <Download className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent className="relative">
+                <div className="text-2xl font-bold">847</div>
+                <p className="text-xs text-muted-foreground">+23% from last month</p>
+              </CardContent>
+            </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Avg. Reduction</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">-15.2%</div>
-            <p className="text-xs text-muted-foreground">Monthly average</p>
-          </CardContent>
-        </Card>
-      </motion.div>
+            <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-card to-card/95 backdrop-blur-sm shadow-xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-transparent to-transparent opacity-50" />
+              <CardHeader className="relative flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Avg. Reduction</CardTitle>
+                <TrendingUp className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent className="relative">
+                <div className="text-2xl font-bold text-green-600">-15.2%</div>
+                <p className="text-xs text-muted-foreground">Monthly average</p>
+              </CardContent>
+            </Card>
+          </>
+        )}
+      </div>
 
       {/* Recent Reports */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      >
-        <Card>
-          <CardHeader>
+      <div>
+        <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-card to-card/95 backdrop-blur-sm shadow-xl">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-transparent to-transparent opacity-50" />
+          <CardHeader className="relative">
             <CardTitle>Recent Reports</CardTitle>
             <CardDescription>
               Your latest generated reports and analysis
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            {reports.length > 0 ? (
+          <CardContent className="relative">
+            {loading ? (
+              <RecentReportsSkeleton items={3} />
+            ) : filteredReports.length > 0 ? (
               <div className="space-y-4">
-                {reports.map((report, index) => (
-                  <motion.div
+                {filteredReports.map((report) => (
+                  <div
                     key={report.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
                     className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors"
                   >
                     <div className="flex items-start space-x-4">
@@ -148,7 +158,7 @@ export default function ReportsPage() {
                       <Download className="h-4 w-4" />
                       Download
                     </Button>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             ) : (
@@ -170,7 +180,7 @@ export default function ReportsPage() {
             )}
           </CardContent>
         </Card>
-      </motion.div>
+      </div>
     </DashboardLayout>
   )
 }

@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { motion } from "framer-motion"
+
 import { format } from "date-fns"
 import { 
   Car, 
@@ -159,19 +159,16 @@ export function ActivityFeed({
               Your latest emissions and achievements
             </CardDescription>
           </div>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Button 
-              variant="outline" 
+          <div>
+            <Button
+              variant="outline"
               size="sm"
               className="hover:bg-primary/10 hover:border-primary/30 transition-all duration-200 text-xs sm:text-sm"
             >
               <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
               View All
             </Button>
-          </motion.div>
+          </div>
         </div>
       </CardHeader>
       
@@ -187,16 +184,13 @@ export function ActivityFeed({
           
           return (
             <React.Fragment key={activity.id}>
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
+              <div
                 className="flex items-start space-x-3 sm:space-x-4 p-3 sm:p-4 rounded-xl hover:bg-muted/30 transition-all duration-200 group/item"
               >
                 <div className={`flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl ${colorClasses.bg} ${colorClasses.border} ring-1 ring-white/10 transition-all duration-200`}>
                   <ActivityIcon className={`h-5 w-5 sm:h-6 sm:w-6 ${colorClasses.icon}`} />
                 </div>
-                
+
                 <div className="flex-1 min-w-0 space-y-1 sm:space-y-2">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
                     <p className="text-xs sm:text-sm font-semibold text-foreground group-hover/item:text-primary transition-colors">
@@ -209,37 +203,27 @@ export function ActivityFeed({
                       </div>
                     )}
                   </div>
-                  
+
                   <div className="space-y-1">
                     {activity.metadata?.amount && (
-                      <motion.p 
-                        className="text-xs sm:text-sm text-primary font-semibold"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: index * 0.1 + 0.2 }}
-                      >
+                      <p className="text-xs sm:text-sm text-primary font-semibold">
                         +{formatCO2(Number(activity.metadata.amount))}
-                      </motion.p>
+                      </p>
                     )}
-                    
+
                     {activity.metadata?.target && (
-                      <motion.p 
-                        className="text-xs sm:text-sm text-blue-600 font-semibold"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: index * 0.1 + 0.2 }}
-                      >
+                      <p className="text-xs sm:text-sm text-blue-600 font-semibold">
                         Target: {activity.metadata.target}% reduction
-                      </motion.p>
+                      </p>
                     )}
-                    
+
                     <div className="flex items-center gap-1 text-xs text-muted-foreground">
                       <Clock className="h-3 w-3" />
                       {formatTimestamp(activity.timestamp)}
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
               
               {/* Enhanced divider between activities */}
               {index < displayedActivities.length - 1 && (
@@ -252,12 +236,7 @@ export function ActivityFeed({
         })}
 
         {activities.length > maxItems && !showAll && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="pt-3 sm:pt-4"
-          >
+          <div className="pt-3 sm:pt-4">
             <Button
               variant="ghost"
               size="sm"
@@ -266,15 +245,11 @@ export function ActivityFeed({
             >
               Show {activities.length - maxItems} more activities
             </Button>
-          </motion.div>
+          </div>
         )}
 
         {showAll && activities.length > maxItems && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="pt-3 sm:pt-4"
-          >
+          <div className="pt-3 sm:pt-4">
             <Button
               variant="ghost"
               size="sm"
@@ -283,7 +258,7 @@ export function ActivityFeed({
             >
               Show less
             </Button>
-          </motion.div>
+          </div>
         )}
       </CardContent>
     </Card>

@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { motion } from "framer-motion"
+
 import { 
   LineChart, 
   Line, 
@@ -69,16 +69,12 @@ export function EmissionsTrend({
   const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number }>; label?: string }) => {
     if (active && payload && payload.length) {
       return (
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="rounded-xl border bg-background/95 backdrop-blur-sm p-3 sm:p-4 shadow-xl"
-        >
+        <div className="rounded-xl border bg-background/95 backdrop-blur-sm p-3 sm:p-4 shadow-xl">
           <p className="font-semibold text-sm mb-1">{label}</p>
           <p className="text-sm text-primary font-medium">
             {formatCO2(payload[0].value)}
           </p>
-        </motion.div>
+        </div>
       )
     }
     return null
@@ -103,48 +99,42 @@ export function EmissionsTrend({
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
             {/* Compact Chart Type Toggle - Reduced width while maintaining touch targets */}
             <div className="flex rounded-xl border bg-muted/50 p-1 backdrop-blur-sm w-fit">
-              <motion.button
+              <button
                 onClick={() => setSelectedChart("area")}
                 className={`rounded-lg px-3 sm:px-3 py-2.5 sm:py-2 text-sm font-medium transition-all duration-200 min-h-[44px] sm:min-h-0 ${
-                  selectedChart === "area" 
-                    ? "bg-primary text-primary-foreground shadow-sm" 
+                  selectedChart === "area"
+                    ? "bg-primary text-primary-foreground shadow-sm"
                     : "hover:bg-muted/80 text-muted-foreground"
                 }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
               >
                 Area
-              </motion.button>
-              <motion.button
+              </button>
+              <button
                 onClick={() => setSelectedChart("line")}
                 className={`rounded-lg px-3 sm:px-3 py-2.5 sm:py-2 text-sm font-medium transition-all duration-200 min-h-[44px] sm:min-h-0 ${
-                  selectedChart === "line" 
-                    ? "bg-primary text-primary-foreground shadow-sm" 
+                  selectedChart === "line"
+                    ? "bg-primary text-primary-foreground shadow-sm"
                     : "hover:bg-muted/80 text-muted-foreground"
                 }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
               >
                 Line
-              </motion.button>
+              </button>
             </div>
 
             {/* Compact Time Range Selector - Reduced width while maintaining touch targets */}
             <div className="flex rounded-xl border bg-muted/50 p-1 backdrop-blur-sm w-fit">
               {(["week", "month", "year"] as TimeRange[]).map((range) => (
-                <motion.button
+                <button
                   key={range}
                   onClick={() => setSelectedRange(range)}
                   className={`rounded-lg px-3 sm:px-3 py-2.5 sm:py-2 text-sm font-medium capitalize transition-all duration-200 min-h-[44px] sm:min-h-0 ${
-                    selectedRange === range 
-                      ? "bg-primary text-primary-foreground shadow-sm" 
+                    selectedRange === range
+                      ? "bg-primary text-primary-foreground shadow-sm"
                       : "hover:bg-muted/80 text-muted-foreground"
                   }`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
                 >
                   {range}
-                </motion.button>
+                </button>
               ))}
             </div>
           </div>
@@ -164,13 +154,10 @@ export function EmissionsTrend({
             { label: "Daily Average", value: formatCO2(average), color: "text-foreground", icon: TrendingUp },
             { label: "vs Previous", value: "-12%", color: "text-green-600", icon: TrendingDown },
             { label: "Efficiency", value: "B+", color: "text-blue-600", icon: Star }
-          ].map((stat, index) => (
-            <motion.div 
+          ].map((stat) => (
+            <div
               key={stat.label}
               className="text-center space-y-1 sm:space-y-2"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <div className="flex justify-center mb-1">
                 <stat.icon className="h-4 w-4 sm:h-6 sm:w-6 text-muted-foreground" />
@@ -181,18 +168,12 @@ export function EmissionsTrend({
               <div className="text-xs text-muted-foreground font-medium">
                 {stat.label}
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* Enhanced Chart */}
-        <motion.div
-          key={`${selectedRange}-${selectedChart}`}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="h-64 sm:h-80 relative"
-        >
+        <div className="h-64 sm:h-80 relative">
           <ResponsiveContainer width="100%" height="100%">
             {selectedChart === "area" ? (
               <AreaChart data={currentData}>
@@ -267,7 +248,7 @@ export function EmissionsTrend({
               </LineChart>
             )}
           </ResponsiveContainer>
-        </motion.div>
+        </div>
       </CardContent>
     </Card>
   )

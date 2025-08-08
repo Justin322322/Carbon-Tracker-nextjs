@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { motion } from "framer-motion"
+
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { formatCO2, formatPercentage } from "@/lib/utils"
@@ -31,16 +31,12 @@ export function EmissionsBreakdown({
     if (active && payload && payload.length) {
       const data = payload[0].payload
       return (
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="rounded-xl border bg-background/95 backdrop-blur-sm p-3 sm:p-4 shadow-xl"
-        >
+        <div className="rounded-xl border bg-background/95 backdrop-blur-sm p-3 sm:p-4 shadow-xl">
           <p className="font-semibold text-sm mb-1">{data.name}</p>
           <p className="text-sm text-primary font-medium">
             {formatCO2(data.value)} ({formatPercentage(data.percentage ?? 0)})
           </p>
-        </motion.div>
+        </div>
       )
     }
     return null
@@ -64,30 +60,26 @@ export function EmissionsBreakdown({
           
           {/* Compact View Toggle - Reduced width while maintaining touch targets */}
           <div className="flex rounded-xl border bg-muted/50 p-1 backdrop-blur-sm w-fit">
-            <motion.button
+            <button
               onClick={() => setSelectedView("pie chart")}
               className={`rounded-lg px-3 sm:px-3 py-2.5 sm:py-2 text-sm font-medium transition-all duration-200 min-h-[44px] sm:min-h-0 ${
-                selectedView === "pie chart" 
-                  ? "bg-primary text-primary-foreground shadow-sm" 
+                selectedView === "pie chart"
+                  ? "bg-primary text-primary-foreground shadow-sm"
                   : "hover:bg-muted/80 text-muted-foreground"
               }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               Pie Chart
-            </motion.button>
-            <motion.button
+            </button>
+            <button
               onClick={() => setSelectedView("bar chart")}
               className={`rounded-lg px-3 sm:px-3 py-2.5 sm:py-2 text-sm font-medium transition-all duration-200 min-h-[44px] sm:min-h-0 ${
-                selectedView === "bar chart" 
-                  ? "bg-primary text-primary-foreground shadow-sm" 
+                selectedView === "bar chart"
+                  ? "bg-primary text-primary-foreground shadow-sm"
                   : "hover:bg-muted/80 text-muted-foreground"
               }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               Bar Chart
-            </motion.button>
+            </button>
           </div>
         </div>
       </CardHeader>
@@ -101,13 +93,7 @@ export function EmissionsBreakdown({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Enhanced Chart */}
           <div className="lg:col-span-2">
-            <motion.div
-              key={selectedView}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-              className="h-64 sm:h-80"
-            >
+            <div className="h-64 sm:h-80">
               <ResponsiveContainer width="100%" height="100%">
                 {selectedView === "pie chart" ? (
                   <PieChart>
@@ -123,9 +109,9 @@ export function EmissionsBreakdown({
                       startAngle={90}
                       endAngle={450}
                     >
-                      {data.map((entry, index) => (
-                        <Cell 
-                          key={`cell-${index}`} 
+                      {data.map((entry, idx) => (
+                        <Cell
+                          key={`cell-${idx}`}
                           fill={entry.color}
                           stroke="transparent"
                         />
@@ -150,62 +136,48 @@ export function EmissionsBreakdown({
                       dataKey="value" 
                       radius={[4, 4, 0, 0]}
                     >
-                      {data.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      {data.map((entry, idx) => (
+                        <Cell key={`cell-${idx}`} fill={entry.color} />
                       ))}
                     </Bar>
                   </BarChart>
                 )}
               </ResponsiveContainer>
-            </motion.div>
+            </div>
           </div>
 
           {/* Enhanced Legend */}
           <div className="space-y-3 sm:space-y-4">
             <h4 className="text-sm font-semibold text-foreground">Categories</h4>
             <div className="space-y-2 sm:space-y-3">
-              {data.map((item, index) => (
-                <motion.div
+              {data.map((item) => (
+                <div
                   key={item.name}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
                   className="flex items-center justify-between p-2 sm:p-3 rounded-lg hover:bg-muted/30 transition-all duration-200 group/item"
                 >
                   <div className="flex items-center space-x-2 sm:space-x-3">
-                    <motion.div 
-                      className="h-3 w-3 sm:h-4 sm:w-4 rounded-full shadow-sm" 
+                    <div
+                      className="h-3 w-3 sm:h-4 sm:w-4 rounded-full shadow-sm"
                       style={{ backgroundColor: item.color }}
-                      whileHover={{ scale: 1.2 }}
                     />
                     <span className="text-xs sm:text-sm font-medium group-hover/item:text-primary transition-colors truncate">
                       {item.name}
                     </span>
                   </div>
                   <div className="text-right min-w-0">
-                    <motion.div 
-                      className="text-xs sm:text-sm font-semibold text-primary truncate"
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: index * 0.1 + 0.2 }}
-                    >
+                    <div className="text-xs sm:text-sm font-semibold text-primary truncate">
                       {formatCO2(item.value)}
-                    </motion.div>
+                    </div>
                     <div className="text-xs text-muted-foreground font-medium">
                       {formatPercentage(item.percentage ?? 0)}
                     </div>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
             
             {/* Enhanced Summary Stats */}
-            <motion.div 
-              className="mt-4 sm:mt-6 p-3 sm:p-4 rounded-xl bg-gradient-to-br from-primary/15 to-primary/25 border border-primary/30"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-            >
+            <div className="mt-4 sm:mt-6 p-3 sm:p-4 rounded-xl bg-gradient-to-br from-primary/15 to-primary/25 border border-primary/30">
               <div className="text-sm font-semibold text-primary mb-2">Summary</div>
               <div className="space-y-1 sm:space-y-2 text-xs">
                 <div className="flex justify-between">
@@ -221,7 +193,7 @@ export function EmissionsBreakdown({
                   <span className="font-medium">{data.length}</span>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </CardContent>
